@@ -8,18 +8,21 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     container:
       image: dipjyotimetia/hybridtestframework:2.0
 
+    # give permission to Gradle to run the commands
     steps:
     - uses: actions/checkout@v2
-    - name: Install Google Chrome # Using shell script to install Google Chrome
-      run: |
-        chmod +x ./Driver/linux/InstallChrome.sh
-         ./Driver/linux/InstallChrome.sh
     - name: Grant execute permission for gradlew
-      run: chmod +x gradlew # give permission to Gradle to run the commands
+      run: chmod +x gradlew
+    - name: Grant execute permission for chromedriver
+      run: chmod +x ./Driver/linux/chromedriver
+    - name: Grant execute permission for geckodriver
+      run: chmod +x ./Driver/linux/geckodriver
     - name: Build with Gradle
       run: ./gradlew task e2e
+      env:
+        BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+        BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}

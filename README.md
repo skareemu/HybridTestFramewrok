@@ -2,6 +2,8 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/2ffd9c97725645c2bcda860988dc0baf)](https://www.codacy.com/manual/dipjyotimetia/HybridTestFramewrok?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dipjyotimetia/HybridTestFramewrok&amp;utm_campaign=Badge_Grade)
 [![This project is using Percy.io for visual regression testing.](https://percy.io/static/images/percy-badge.svg)](https://percy.io/CypressTest/Selenium)
 ![HybridTestFramework](https://github.com/dipjyotimetia/HybridTestFramewrok/workflows/HybridTestFramework/badge.svg)
+[![Build Status](https://dev.azure.com/dipjyoti/OpensourceProjects/_apis/build/status/dipjyotimetia.HybridTestFramewrok?branchName=master)](https://dev.azure.com/dipjyoti/OpensourceProjects/_build/latest?definitionId=7&branchName=master)  
+[![SupportedBy JetBrains](https://github.com/TestautoDev/Tricks-And-Tips/blob/master/jetbrains.svg)](https://www.jetbrains.com/?from=HybridTestFramework)  
 ### Full fledged WEB, API and Security testing framework using selenium,ZAP OWASP proxy and rest-assured
 
 <img src="https://github.com/dipjyotimetia/HybridTestFramewrok/blob/master/Docs/screens/selenium.png" width="800">  
@@ -11,6 +13,7 @@ This framework supports WebUi automation across a variety of browsers like Chrom
 
 ### Capabilities
 * Cross browser testing support
+* Added browserstack support for CrossBrowser testing
 * Running tests in docker containers selenium grid
 * Running tests in AWS DeviceFarm selenium grid
 * Running tests in selenium server in docker containers
@@ -18,6 +21,7 @@ This framework supports WebUi automation across a variety of browsers like Chrom
 * Api testing support using RestAssured
 * Visual regression testing using percy.io
 * Accessibility testing using axe-selenium
+* Stubbed api testing using WireMock
 * Can send logs to ElasticSearch for kibana dashboard visualization
 * Database testing support(Coming Soon...)
 * Kubernetes support(Coming soon...)   
@@ -81,21 +85,3 @@ Search and modify the below line in .idea workspace.xml
     <property name="dynamic.classpath" value="true" />
 </component>
 ```
-## Screens
-### Framework Structure
-<img src="https://github.com/dipjyotimetia/HybridTestFramewrok/blob/master/Docs/screens/projectStructure.png" width="400">  
-
-### JenkinsExecution
-<img src="https://github.com/dipjyotimetia/HybridTestFramewrok/blob/master/Docs/screens/jenkinsExecution.png" width="700">  
-
-### GridServer 2.0
-<img src="https://github.com/dipjyotimetia/HybridTestFramewrok/blob/master/Docs/screens/seleniumGrid.png" width="500">  
-
-### Allure Reporting
-<img src="https://github.com/dipjyotimetia/HybridTestFramewrok/blob/master/Docs/screens/allureReport.png" width="700">  
-
-### Gradle Report
-<img src="https://github.com/dipjyotimetia/HybridTestFramewrok/blob/master/Docs/screens/gradleReport.png" width="700">  
-
-### LogsView
-<img src="https://github.com/dipjyotimetia/HybridTestFramewrok/blob/master/Docs/screens/logs.png" width="700">    

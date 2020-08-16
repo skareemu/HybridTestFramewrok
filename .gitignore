@@ -1,8 +1,10 @@
 .allure/**/**
 .idea/**/**
+.github/**/**
 .gradle/**/**
 Out
 Reports
 allure-results/**/**
 ScreensDoc/**/**
 logs/logfile.log
+/build/
