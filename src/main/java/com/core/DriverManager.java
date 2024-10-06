@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2020 Dipjyoti Metia
+Copyright (c) 2023 Dipjyoti Metia
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,17 +21,44 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+
 package com.core;
 
 
+import com.config.AppConfig;
+import com.microsoft.playwright.Browser;
 import org.openqa.selenium.WebDriver;
 
-public class DriverManager<T> extends WebDriverController<T> {
-
+/**
+ * DriverManager class is responsible for handling WebDriver instance management.
+ * It extends DriverController class to access its methods and configurations.
+ *
+ * @author Dipjyoti Metia
+ * @version 1.0
+ * @since 2020
+ */
+public class DriverManager extends DriverController {
+    /**
+     * AppConfig instance to access application configurations.
+     */
+    public AppConfig appConfig;
+    /**
+     * WebDriver instance to manage the WebDriver for the current thread.
+     */
     public WebDriver driverThread;
 
-    public DriverManager() {
-        this.driverThread = super.getDriver();
-    }
+    /**
+     * Browser instance to manage the Browser for the current thread.
+     */
+    public Browser playThread;
 
+    /**
+     * Default constructor for DriverManager.
+     * Initializes AppConfig and WebDriver instances from the superclass.
+     */
+    public DriverManager() {
+        this.appConfig = super.getAppConfig();
+        this.driverThread = super.getWebDriver();
+        this.playThread = super.getPlaywright();
+    }
 }

@@ -1,36 +1,36 @@
-<!-- Thanks for submitting a pull request! We appreciate you spending the time to work on these changes. Please follow the template so that the reviewers can easily understand what the code changes affect -->
+# Description
 
-# Summary
+Please include a summary of the changes and the related issue. Please also include relevant motivation and context. List any dependencies that are required for this change.
 
-<!--
-Explain the **motivation** for making this change: here are some points to help you:
+Fixes # (issue)
 
-* What issues does the pull request solve? Please tag them so that they will get automatically closed once the PR is merged
-* What is the feature? (if applicable)
-* How did you implement the solution?
-* What areas of the library does it impact?
--->
+## Type of change
 
-## Test Plan
+Please delete options that are not relevant.
 
-<!-- Demonstrate the code is solid. Example: The exact commands you ran and their output, screenshots / videos if the pull request changes UI. -->
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] This change requires a documentation update
 
-### What's required for testing (prerequisites)?
+## Checklist:
 
-### What are the steps to reproduce (after prerequisites)?
+- [ ] My code follows the style guidelines of this project
+- [ ] I have added new tests required for this feature.
+- [ ] I have made corresponding changes to the documentation, if required.
+- [ ] My changes generate no new warnings
 
-## Compatibility
+### Web Compatibility
 
 | Browser | Implemented |
-| ------- | :---------: |
-| Chrome  |    ✅❌    |
-| Firefox |    ✅❌    |
+|---------|:-----------:|
+| Chrome  |     ✅❌      |
+| Firefox |     ✅❌      |
+| Edge    |     ✅❌      |
 
-## Checklist
+### Mobile Compatibility
 
-<!-- Check completed item, when applicable, via: [X] -->
-
-- [ ] I have tested this on all browsers
-- [ ] I added the documentation in `README.md`
-- [ ] I mentioned this change in `CHANGELOG.md`
-- [ ] I updated function description
+| Mobile  | Implemented |
+|---------|:-----------:|
+| Android |     ✅❌      |
+| IOS     |     ✅❌      |

@@ -1,68 +1,48 @@
-# Complete infra creation on the fly jenkins & SonarQube
-version: '3'
+version: '3.8'
+
 services:
-
-  jenkins:
-    image: jenkins/jenkins:lts
-    container_name: jenkins
-    hostname: jenkins
-    privileged: true
-    user: root
-    ports:
-      - 8080:8080
-      - 50000:50000
-    volumes:
-      - ~/jenkins-data:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /usr/local/bin/docker:/usr/local/bin/docker
-      # - /var/jenkins_home:/usr/share/jenkins/ref/plugins
-      # - /var/jenkins_home/plugins.txt:/usr/share/jenkins/ref/plugins.txt
-    #docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
-
-  sonarqube:
-    image: sonarqube:8.3-community
-    container_name: sonarqube
-    hostname: sonarqube
-    expose:
-      - 9000
-    user: "999"
-    ports:
-      - "9000:9000"
-      - "9092:9092"
-    networks:
-      - sonarnet
+  allure:
+    image: "frankescobar/allure-docker-service"
     environment:
-      - sonar.jdbc.username=sonar
-      - sonar.jdbc.password=sonar
-      - sonar.jdbc.url=jdbc:postgresql://db/sonar
-      # - sonar.search.javaAdditionalOpts=-Dbootstrap.system_call_filter=false
+      CHECK_RESULTS_EVERY_SECONDS: 1
+      KEEP_HISTORY: 1
+      KEEP_HISTORY_LATEST: 25
+    ports:
+      - "5050:5050"
     volumes:
-      - sonarqube_conf:/opt/sonarqube/conf
-      - sonarqube_data:/opt/sonarqube/data
-      - sonarqube_extensions:/opt/sonarqube/extensions
-      - sonarqube_bundled-plugins:/opt/sonarqube/lib/bundled-plugins
-    # http://localhost:9000Use the default credentials admin/admin to login.
+      - "./build/allure-results:/app/allure-results"
+      - "./build/allure-reports:/app/default-reports"
 
-  db:
-    image: postgres:12.0
-    container_name: sonarqube-pg
-    hostname: sonarqube-pg
-    networks:
-      - sonarnet
+  allure-ui:
+    image: "frankescobar/allure-docker-service-ui"
     environment:
-      - POSTGRES_USER=sonar
-      - POSTGRES_PASSWORD=sonar
-    volumes:
-      - postgresql:/var/lib/postgresql
-      - postgresql_data:/var/lib/postgresql/data
+      ALLURE_DOCKER_PUBLIC_API_URL: "http://localhost:5050"
+      ALLURE_DOCKER_PUBLIC_API_URL_PREFIX: ""
+    ports:
+      - "5252:5252"
 
-volumes:
-  sonarqube_conf:
-  sonarqube_data:
-  sonarqube_extensions:
-  sonarqube_bundled-plugins:
-  postgresql:
-  postgresql_data:
-
-networks:
-  sonarnet:
+  zaproxy:
+    image: owasp/zap2docker-stable:latest
+    command:
+      # Uncomment one of the following lines depending on the desired ZAP mode
+      # "zap.sh",
+      - "zap-x.sh"
+      # "zap-webswing.sh",
+      - "-daemon"
+      - "-host"
+      - "0.0.0.0"
+      - "-port"
+      - "8082"
+      - "-config"
+      - "api.disablekey=true"
+      - "-config"
+      - "api.addrs.addr.name=.*"
+      - "-config"
+      - "api.addrs.addr.regex=true"
+      - "-config"
+      - "api.key=d025okl6n7blpkrr0iee6c7hsi"
+      # Uncomment the following line to install a specific add-on
+      # "-addoninstall FOOXYZ",
+      - "-addonupdate"
+    ports:
+      - "127.0.0.1:8082:8082"

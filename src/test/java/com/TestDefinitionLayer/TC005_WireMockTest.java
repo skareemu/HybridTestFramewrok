@@ -1,6 +1,26 @@
+/*
+MIT License
+Copyright (c) 2021 Dipjyoti Metia
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+ */
+
 package com.TestDefinitionLayer;
 
-import com.core.ApiActions;
+import com.api.rest.ApiActions;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import io.qameta.allure.*;
 import io.restassured.RestAssured;
@@ -13,7 +33,7 @@ import org.testng.annotations.Test;
 @Link("https://jira.cloud.com")
 @Feature("MockApi1")
 @Feature("MockApi2")
-public class TC005_WireMockTest<T> extends ApiActions<T> {
+public class TC005_WireMockTest extends ApiActions {
     WireMockServer wireMockServer;
 
     @BeforeTest
@@ -60,7 +80,7 @@ public class TC005_WireMockTest<T> extends ApiActions<T> {
     public void TestBranches() {
         Response response = httpGet("/api/branches");
         Assert.assertEquals(getStatusCode(response) /*actual value*/, 200 /*expected value*/, "Correct status code returned");
-        T title = jsonPathEvaluator(response, "Data.Branches[0].BranchIdentification");
+        String title = (String) jsonPathEvaluator(response, "Data.Branches[0].BranchIdentification");
         Assert.assertEquals("Belfast City Branch", title);
     }
 
@@ -71,7 +91,7 @@ public class TC005_WireMockTest<T> extends ApiActions<T> {
     public void TestBank() {
         Response response = httpGet("/api/bank");
         Assert.assertEquals(getStatusCode(response) /*actual value*/, 200 /*expected value*/, "Correct status code returned");
-        T title = jsonPathEvaluator(response, "short_name");
+        String title = (String) jsonPathEvaluator(response, "short_name");
         Assert.assertEquals("The Royal Bank of Scotland", title);
     }
 
@@ -83,7 +103,7 @@ public class TC005_WireMockTest<T> extends ApiActions<T> {
         Response response = httpGet("/api/atms");
         Assert.assertEquals(getStatusCode(response) /*actual value*/, 200 /*expected value*/, "Correct status code returned");
         Assert.assertEquals(getContentType(response) /*actual value*/, "application/json" /*expected value*/, "Correct status code returned");
-        T title = jsonPathEvaluator(response, "Data.Atm[0].AtmServices[0]");
+        String title = (String) jsonPathEvaluator(response, "Data.Atm[0].AtmServices[0]");
         Assert.assertEquals("CashWithdrawal", title);
     }
 }

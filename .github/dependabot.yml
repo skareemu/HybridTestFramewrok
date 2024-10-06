@@ -1,0 +1,22 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      # Check for updates to GitHub Actions every weekday
+      interval: "weekly"
+  - package-ecosystem: "gradle" # See documentation for possible values
+    directory: "/" # Location of package manifests
+    schedule:
+      interval: "weekly"
+      time: "10:00"
+      timezone: Australia/Melbourne
+    rebase-strategy: "auto"
+    labels:
+      - "security"
+      - "dependencies"
+      - "automerge"
+    open-pull-requests-limit: 20
+    ignore:
+      - dependency-name: "express"
+        versions: [ "7.3.1-ce" ]

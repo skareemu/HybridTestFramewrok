@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2020 Dipjyoti Metia
+Copyright (c) 2023 Dipjyoti Metia
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,26 +21,24 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+
 package com.security;
 
+import lombok.extern.slf4j.Slf4j;
+import org.zaproxy.clientapi.core.ClientApi;
+import org.zaproxy.clientapi.core.ClientApiException;
+import org.zaproxy.clientapi.core.ClientApiMain;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.zaproxy.clientapi.core.ClientApi;
-import org.zaproxy.clientapi.core.ClientApiException;
-import org.zaproxy.clientapi.core.ClientApiMain;
-
+@Slf4j
 public class ZapTools {
 
-    private final Logger logger = LogManager.getLogger(ZapTools.class);
-
-    private String ZAP_LOCATION = "C:\\Program Files\\OWASP\\Zed Attack Proxy";
-    private String SAVE_SESSION_DIRECTORY = "ZAPSessions\\";
+    private final String ZAP_LOCATION = "C:\\Program Files\\OWASP\\Zed Attack Proxy";
+    private final String SAVE_SESSION_DIRECTORY = "ZAPSessions\\";
 
     public boolean startZAP() {
         try {
@@ -64,10 +62,10 @@ public class ZapTools {
                     break;
                 }
             }
-            logger.info("ZAP has started successfully.");
+            log.info("ZAP has started successfully.");
             return true;
         } catch (Exception ex) {
-            logger.info("ZAP was unable to start.");
+            log.info("ZAP was unable to start.");
             ex.printStackTrace();
             return false;
         }
@@ -79,17 +77,17 @@ public class ZapTools {
 
     public void startSession(String zapaddr, int zapport) {
         ClientApiMain.main(new String[]{"newSession", "zapaddr=" + zapaddr, "zapport=" + zapport});
-        logger.info("session started");
-        logger.info("Session started successfully.");
+        log.info("session started");
+        log.info("Session started successfully.");
     }
 
     public void saveSession(ClientApi api, String fileName) {
         try {
             String path = this.SAVE_SESSION_DIRECTORY + fileName + ".session";
             api.core.saveSession(path, "true");
-            logger.info("Session save successful (" + path + ").");
+            log.info("Session save successful (" + path + ").");
         } catch (ClientApiException ex) {
-            logger.info("Error saving session.");
+            log.info("Error saving session.");
             ex.printStackTrace();
         }
     }

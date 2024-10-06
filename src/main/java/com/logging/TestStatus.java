@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2020 Dipjyoti Metia
+Copyright (c) 2023 Dipjyoti Metia
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,10 +21,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+
 package com.logging;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Setter;
 
+@Setter
 public class TestStatus {
 
     @JsonProperty("testClass")
@@ -38,21 +41,5 @@ public class TestStatus {
 
     @JsonProperty("executionTime")
     private String executionTime;
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setExecutionDate(String executionTime) {
-        this.executionTime = executionTime;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public void setTestClass(String testClass) {
-        this.testClass = testClass;
-    }
 
 }

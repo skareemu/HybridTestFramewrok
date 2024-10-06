@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2020 Dipjyoti Metia
+Copyright (c) 2023 Dipjyoti Metia
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,58 +21,73 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+
 package com.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import net.lingala.zip4j.ZipFile;
-import net.lingala.zip4j.exception.ZipException;
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.testng.Assert;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 /**
- * utils for file system operations.
+ * Utils for file system operations.
  */
+@Slf4j
 public class FileSystem {
 
-    private static final Logger logger = LogManager.getLogger(FileSystem.class);
-
-    public void downloadDriver() throws Exception{
-        String fromFile = "https://chromedriver.storage.googleapis.com/81.0.4044.138/chromedriver_win32.zip";
-        String toFile = "Driver/chromedriver.zip";
-        String destination = "Driver";
-        try {
-            FileUtils.copyURLToFile(new URL(fromFile), new File(toFile), 10000, 10000);
-            unzip(toFile, destination);
-            Thread.sleep(3000);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    /**
+     * Check if a path exists.
+     *
+     * @param path Path as a String.
+     * @return True if the path exists, False if the path does not exist.
+     */
+    public static boolean exists(String path) {
+        File file = new File(path);
+        return file.exists();
     }
 
-    private void unzip(String source, String destination) {
-        try {
-            ZipFile zipFile = new ZipFile(source);
-            zipFile.extractAll(destination);
-        } catch (ZipException e) {
-            e.printStackTrace();
+    /**
+     * Ensure that a folder exists (create it if it does not exist).
+     *
+     * @param directory Path to the directory.
+     */
+    public static void ensureFolderExists(String directory) {
+        File file = new File(directory);
+        if (!file.exists()) {
+            boolean result = file.mkdirs();
+            if (!result) {
+                log.error("Failed to create folder: " + directory);
+            }
         }
     }
 
     /**
-     * Delete file path.
+     * Unzip a file.
      *
-     * @param path Path to file for folder.
-     * @throws IOException When fail to delete it.
+     * @param source      Source file path.
+     * @param destination Destination folder path.
      */
-    public static void deletePath(String path) throws IOException {
+    private void unzip(String source, String destination) {
+        try {
+            ZipFile zipFile = new ZipFile(source);
+            zipFile.extractAll(destination);
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    /**
+     * Delete a file or folder.
+     *
+     * @param path Path to the file or folder to be deleted.
+     */
+    public void deletePath(String path) {
         try {
             File file = new File(path);
             if (file.isDirectory()) {
@@ -80,104 +95,37 @@ public class FileSystem {
             } else {
                 file.delete();
             }
-            logger.info("Delete " + path);
+            log.info("Deleted " + path);
         } catch (Exception e) {
-            String errorMessage = "Failed to delete " + path;
-            logger.fatal(errorMessage);
-            throw new IOException(errorMessage);
+            log.error("Failed to delete " + path);
         }
     }
 
     /**
-     * Read content of file.
+     * Read the content of a file.
      *
-     * @param filePath File path as String.
-     * @return Content of file as String.
-     * @throws IOException When fail to read file.
+     * @param filePath File path as a String.
+     * @return Content of the file as a String.
+     * @throws IOException When failed to read the file.
      */
-    public static String readFile(String filePath) throws IOException {
+    public String readFile(String filePath) throws IOException {
         byte[] encoded = Files.readAllBytes(Paths.get(filePath));
-        return new String(encoded, Charset.defaultCharset());
+        return new String(encoded, StandardCharsets.UTF_8);
     }
 
     /**
-     * Append content of String to file.
+     * Get the size of a file.
      *
-     * @param filePath File path as String.
-     * @param text     Content to be written in file.
-     * @throws IOException When fail to write in file.
+     * @param path Path to the file.
+     * @return Size of the file in kilobytes (KB).
      */
-    public static void appendFile(String filePath, String text) throws IOException {
-        FileUtils.writeStringToFile(new File(filePath), text, "UTF-8", true);
-    }
-
-    /**
-     * Write content of String to file.
-     *
-     * @param filePath File path as String.
-     * @param text     Content to be written in file.
-     * @throws IOException When fail to write in file.
-     */
-    public static void writeFile(String filePath, String text) throws IOException {
-        FileUtils.writeStringToFile(new File(filePath), text, "UTF-8");
-    }
-
-    /**
-     * Check if path exists.
-     *
-     * @param path Path as String.
-     * @return True if path exists. False if path does not exist.
-     */
-    public static boolean exist(String path) {
+    public long getFileSize(String path) {
         File file = new File(path);
-        return file.exists();
-    }
-
-    /**
-     * Ensure path exists (create if does not exists).
-     *
-     * @param directory Path to directory.
-     */
-    public static void ensureFolderExists(String directory) {
-        File file = new File(directory);
-        if (!file.exists()) {
-            boolean result = file.mkdirs();
-            if (!result) {
-                logger.error("Failed to create folder: " + directory);
-            }
-        }
-    }
-
-    /**
-     * Get size of file.
-     *
-     * @param path Path to file.
-     * @return Size of file in kB.
-     */
-    public static long getFileSize(String path) {
-        File file;
-        long size = 0;
-        file = new File(path);
         if (file.exists()) {
-            size = file.length() / 1024; // In KBs
+            return file.length() / 1024; // In KBs
         } else {
             Assert.fail("File '" + file + "' does not exist!");
-        }
-        return size;
-    }
-
-    public static void writeCsvFile(String storageFilePath, String log, String header) {
-        FileSystem.ensureFolderExists(new File(storageFilePath).getParent());
-
-        try {
-            if (FileSystem.exist(storageFilePath)) {
-                FileSystem.appendFile(storageFilePath, System.lineSeparator() + log);
-            } else {
-                String content = header + System.lineSeparator() + log;
-                FileSystem.writeFile(storageFilePath, content);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+            return 0;
         }
     }
 }

@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2020 Dipjyoti Metia
+Copyright (c) 2023 Dipjyoti Metia
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+
 package com.security;
 
 import org.zaproxy.clientapi.core.ClientApiException;
@@ -28,7 +29,9 @@ import org.zaproxy.clientapi.core.ClientApiException;
 public interface ZapFunctionalities {
 
     void doSpidering() throws ClientApiException, InterruptedException;
+
     void doPassiveScan() throws ClientApiException, InterruptedException;
+
     void doActiveScan() throws ClientApiException, InterruptedException;
 
 }
